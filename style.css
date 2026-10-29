@@ -1,0 +1,363 @@
+/* 陶板屋 菜單導覽 — 淡紫輕奢風格 */
+:root {
+    --mist: #f4f0f8;       /* 頁面底色：淡紫霧 */
+    --paper: #fbf9fd;      /* 內容底色 */
+    --lavender: #c7b6dc;   /* 主色：淡紫 */
+    --wisteria: #8f76ad;   /* 深一階紫 */
+    --plum: #3d2c4e;       /* 文字：深梅紫 */
+    --gold: #b39a68;       /* 點綴：霧金 */
+    --muted: #6f6280;
+
+    --serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    /* 每一頁都固定顯示捲軸，切換分頁時版面寬度一致、不會左右位移 */
+    overflow-y: scroll;
+}
+
+/* 掀頁時底下的預覽頁：隱藏它自己的捲軸，避免同時出現兩條 */
+html.is-preview { overflow: hidden; }
+
+body {
+    background: linear-gradient(165deg, #f8f5fb 0%, #efe7f6 45%, #e4d8f0 100%) fixed;
+    background-color: var(--mist);
+    position: relative;
+    color: var(--plum);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: inherit; text-decoration: none; }
+
+a:focus-visible {
+    outline: 2px solid var(--wisteria);
+    outline-offset: 4px;
+}
+
+ul { list-style: none; }
+
+main { flex: 1; }
+
+/* ---------- 首頁 ---------- */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding: clamp(3rem, 10vw, 6rem) 1.5rem clamp(2rem, 6vw, 4rem);
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(3.5rem, 12vw, 6.5rem);
+    line-height: 1;
+    color: var(--plum);
+    padding-left: clamp(1.5rem, 4vw, 2.5rem);
+    border-left: 1px solid var(--gold);
+}
+
+.hero-text { max-width: 18rem; }
+
+.brand-sub {
+    font-family: var(--serif);
+    color: var(--wisteria);
+    font-size: 1.05rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+}
+
+.lead {
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 3vw, 1.4rem);
+    line-height: 2;
+}
+
+.cat-list {
+    --w: 28rem;      /* 每一階的寬度 */
+    --steps: 6;      /* 共 7 項 → 6 個間距 */
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1rem clamp(1.5rem, 5vw, 4rem) 4rem;
+}
+
+/* 斜梯：第一項貼齊左上，逐階向右，最後一項落在正中央 */
+.cat-list li {
+    width: var(--w);
+    max-width: 100%;
+    margin-left: calc(var(--i) / var(--steps) * (50% - var(--w) / 2));
+    border-bottom: 1px solid rgba(179, 154, 104, 0.45);
+}
+
+.cat-list li:first-child { border-top: 1px solid rgba(179, 154, 104, 0.45); }
+
+.cat-list a {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    grid-template-areas:
+        "zh jp"
+        "zh desc";
+    column-gap: 1.5rem;
+    align-items: center;
+    padding: 1.4rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cat-list a:hover,
+.cat-list a:focus-visible { background: rgba(251, 249, 253, 0.75); }
+
+.cat-zh {
+    grid-area: zh;
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+}
+
+.cat-jp {
+    grid-area: jp;
+    font-size: 0.85rem;
+    color: var(--wisteria);
+    letter-spacing: 0.2em;
+}
+
+.cat-desc {
+    grid-area: desc;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+/* ---------- 背景插畫與動態層 ---------- */
+body::before {
+    content: "";
+    position: fixed;
+    right: clamp(0.5rem, 3vw, 2.5rem);
+    bottom: clamp(0.5rem, 2vw, 1.5rem);
+    width: min(36vw, 400px);
+    aspect-ratio: 16 / 15;
+    background: no-repeat right bottom / contain;
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.art-house::before     { background-image: url("./img/house.svg"); width: min(44vw, 500px); aspect-ratio: 21 / 16; }
+.art-main::before      { background-image: url("./img/main.svg"); }
+.art-salad::before     { background-image: url("./img/salad.svg"); }
+.art-appetizer::before { background-image: url("./img/appetizer.svg"); }
+.art-soup::before      { background-image: url("./img/soup.svg"); }
+.art-washoku::before   { background-image: url("./img/washoku.svg"); }
+.art-dessert::before   { background-image: url("./img/dessert.svg"); }
+.art-drinks::before    { background-image: url("./img/drinks.svg"); }
+
+.fx-leaves,
+.fx-mist {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.fx-leaves { z-index: 1; }
+.fx-mist   { z-index: 50; }
+
+.hero,
+main { position: relative; z-index: 2; }
+
+/* ---------- 掀月曆翻頁動畫 ---------- */
+.page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+/* 翻起的紙背：外層負責投影，內層負責裁切形狀 */
+.peel-wrap {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    filter: drop-shadow(-6px -6px 14px rgba(61, 44, 78, 0.28));
+}
+
+.peel-flap {
+    position: absolute;
+    inset: 0;
+}
+
+/* 掀頁期間暫停互動，避免連點 */
+.peeling body { pointer-events: none; }
+
+/* 掀開時底下的下一頁預覽 */
+.peek-frame {
+    position: fixed;
+    inset: 0;
+    /* 寬度等於目前頁面扣掉捲軸後的寬度，預覽頁內容才會和正式頁面對齊 */
+    width: 100%;
+    height: 100%;
+    border: 0;
+    z-index: 0; /* 在落葉層之下：目前頁面的落葉會持續飄過正在露出的下一頁 */
+    pointer-events: none;
+    visibility: hidden;
+    background: var(--mist);
+    clip-path: polygon(0 0, 0 0, 0 0); /* 尚未掀開前完全不露出 */
+}
+
+.peek-frame.show { visibility: visible; }
+
+.official {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.55rem 1.5rem;
+    border: 1px solid var(--gold);
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    color: var(--plum);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.official:hover {
+    background: var(--plum);
+    color: var(--paper);
+}
+
+/* ---------- 分頁 ---------- */
+.top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(244, 240, 248, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(179, 154, 104, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.9rem clamp(1rem, 4vw, 2.5rem);
+}
+
+.back {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.25em;
+    white-space: nowrap;
+}
+
+.back::before { content: "‹ "; color: var(--gold); }
+
+.tabs {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-left: auto;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tabs a {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    color: var(--muted);
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.tabs a:hover { color: var(--plum); background: var(--paper); }
+
+.tabs a[aria-current="page"] {
+    background: var(--lavender);
+    color: var(--plum);
+    font-weight: 400;
+}
+
+.menu {
+    max-width: 42rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 8vw, 4.5rem) 1.5rem 3rem;
+}
+
+.menu-head {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.menu-head h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 7vw, 3rem);
+    letter-spacing: 0.4em;
+    padding-left: 0.4em; /* 抵銷字距讓視覺置中 */
+}
+
+.menu-head .jp {
+    color: var(--wisteria);
+    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+}
+
+.menu-head .intro {
+    margin: 1.5rem auto 0;
+    padding-top: 1.5rem;
+    max-width: 24rem;
+    border-top: 1px solid var(--gold);
+    color: var(--muted);
+}
+
+.dishes {
+    background: rgba(251, 249, 253, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(199, 182, 220, 0.7);
+    padding: 0.5rem clamp(1.25rem, 5vw, 2.5rem);
+}
+
+.dish { padding: 1.4rem 0; }
+.dish + .dish { border-top: 1px dashed rgba(143, 118, 173, 0.3); }
+
+.dish h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+}
+
+.dish p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+}
+
+/* ---------- 手機 ---------- */
+@media (max-width: 560px) {
+    .hero { flex-direction: row; }
+    .cat-list li { width: calc(100% - 3.6rem); margin-left: calc(var(--i) * 0.6rem); }
+    .cat-list a { grid-template-columns: 3.8rem 1fr; column-gap: 0.8rem; padding: 1.2rem 0.6rem; }
+    .cat-zh { font-size: 1.45rem; }
+    .top { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .tabs { margin-left: 0; }
+    body::before { width: 58vw; opacity: 0.35; }
+    .art-house::before { width: 72vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
